@@ -1,5 +1,3 @@
-#!/media/apps/avx512-2021/software/Python/3.10.8-GCCcore-12.2.0/bin/python
-
 import torch
 import logging
 import os
@@ -33,3 +31,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
