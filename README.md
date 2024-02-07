@@ -2,105 +2,58 @@
 
 ## Steps to request access for CeSVima
 
+### STEP 1
+Refer to the following [link](https://www.cesvima.upm.es/services/hpc/magerit). Hopefully you will see the following page:
+![image 1](src/img/image1.png)
 
 
-Refer to the following [link](https://www.cesvima.upm.es/services/hpc/magerit).
-
-
-
-Click on the “Solicitud” button
-
-
-
-Fill with all the corresponding information about your supervisor, the department and yourself. Also consider:
-
-For your supervisor information just the email is mandatory and for the address use the one of the university (Av. Complutense, 30. 28040)
-
+### STEP 2
+Click on the **Solicitud** button.
+Fill with all the corresponding information about your supervisor, the department and yourself.
+Take into account that for your supervisor information just the email is mandatory and for the address use the one of the university (Av. Complutense, 30. 28040).
 The information corresponding to the department is presented below. 
+![image 2](src/img/image2.png)
+ 
 
+**NOTE**:
+If you are a PhD student, fill project data with your PhD thesis information(Thesis title, overview of the topic and so on...). 
 
+**NOTE 2**:
+Maximum project duration is up to 2 years.
+Therefore, select from the current day plus 2 years.
 
+### STEP 3
 
+After a few days, you will receive an email similar to the one in the figure below with your username and password.
+![image 3](src/img/image3.png)
 
+## Magerit walkthrough
 
+Since the given password is difficult to remember, it is possible to modify it following the steps provided in the email attached to previous section.
+However, for an easier access without using the password we recommend to perform the following steps (ssh):
 
+### **Add magerit to your ssh aliases** in .ssh/config
+![image 4](src/img/image4.png)
 
-
-
-
-NOTE: Fill project data with your PhD thesis information. (Thesis title, overview of the topic and so on...). 
-
-NOTE 2: Maximum project duration is up to 2 years. Therefore, select from the current day plus 2 years.
-
-
-
-E-mail received
-
-After a few days, you will receive an email similar to the one in the figure below with your username and password. 
-
-
-
-
-
-Guide to use CeSVima
-
-
-
-
-
-
-
-
-
-
-
-
-
-Steps to use cesvima
-
-Since the given password is difficult to remember, it is possible to modify it following the steps provided in the email attached to previous section. However, for an easier access without using the password we recommend to perform the following steps (ssh):
-
-Add ssh key to .ssh/config
-
-
-
-
-
-
-
-Generate ssh key to your computer
-
+### Generate **ssh key on your computer**
 Run the following command:
+``ssh-keygen``
+(**NOTE**: For further information i.e. specify filename or the key algorithm refer to [this tutorial](https://www.ssh.com/academy/ssh/keygen).)
 
-ssh-keygen
-
-NOTE: For further information i.e. specify filename or the key algorithm refer to:
-
-
-
-
-
-ssh magerit
-
-
-
+### Now you can **access** the HPC using the ``ssh magerit`` command.
+![image 5](src/img/image5.png)
 Here you have accessed an interactive node, which is not used for computation, but just to interact with the really powerful nodes.
-
 The folders are shared across nodes.
+The following folders are available:
 
-Storage docs: 
+* **Project**: folder with shared data for people within your project (if you belong to any).
+In case of being related with your thesis, you will be the only user of it.
 
+* **Scratch**: folder to store temporary files.
 
+* **User**: folder to store personal files.
 
-Project: folder with shared data for people within your project (if you belong to any). In case of being related with your thesis, you will be the only user of it.
-
-Scratch: folder to store temporary files.
-
-V598630: folder to store personal files.
-
-
-
-
+For more information refer to the [storage documentation](https://docs.cesvima.upm.es/magerit/magerit3/#almacenamiento).
 
 There is 1TB storage for the whole project (/home/`)`
 
