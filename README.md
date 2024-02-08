@@ -1,13 +1,47 @@
 # CeSviMa magerit first steps tutorial
+## Table of contents
+1. [Steps to request access for CeSVima](#steps-to-request-access-for-cesvima)
+
+    1.1. [Go to CeSVima webpage](#step-1---acces-cesvima-webpage)
+
+    1.2. [Access the Form](#step-2---access-the-form)
+
+    1.3. [E-mail received](#step-3---e-mail-received)
+
+2. [Magerit walkthrough](#magerit-walkthrough)
+
+    2.1. [Add magerit to your ssh aliases](#add-magerit-to-your-ssh-aliases-in-sshconfig)
+
+    2.2. [Generate ssh key on your computer](#generate-ssh-key-on-your-computer)
+
+    2.3. [Access the HPC using the ssh magerit command](#now-you-can-access-the-hpc-using-the-ssh-magerit-command)
+
+    2.4. [To list currently loaded modules](#to-list-currently-loaded-modules)
+
+    2.5. [To list all the available modules to install](#to-list-all-the-available-modules-to-install)
+
+    2.6. [To list all available modules of a given framework](#to-list-all-available-modules-of-a-given-framework-run-the-command)
+
+    2.7. [To restart your environment](#to-restart-your-environment)
+
+3. [Launch a test program](#launch-a-test-program)
+
+    3.1. [Clone the following repository](#1-clone-the-following-repository)
+
+    3.2. [Open probe_magerit.sh. You should see the following](#2-open-probe_mageritsh-you-should-see-the-following)
+
+    3.3. [Access the venv using](#3-access-the-venv-using)
+
+    3.4. [Run the following command to install the required dependencies](#4-run-the-following-command-to-install-the-required-dependencies)
 
 ## Steps to request access for CeSVima
 
-### STEP 1
+### STEP 1 - Acces CeSVima webpage
 Refer to the following [link](https://www.cesvima.upm.es/services/hpc/magerit). Hopefully you will see the following page:
 ![image 1](src/img/image1.png)
 
 
-### STEP 2
+### STEP 2 - Access the Form
 Click on the **Solicitud** button.
 Fill with all the corresponding information about your supervisor, the department and yourself.
 Take into account that for your supervisor information just the email is mandatory and for the address use the one of the university (Av. Complutense, 30. 28040).
@@ -22,7 +56,7 @@ If you are a PhD student, fill project data with your PhD thesis information(The
 Maximum project duration is up to 2 years.
 Therefore, select from the current day plus 2 years.
 
-### STEP 3
+### STEP 3 - E-mail received
 
 After a few days, you will receive an email similar to the one in the figure below with your username and password.
 ![image 3](src/img/image3.png)
@@ -57,122 +91,100 @@ For more information refer to the [storage documentation](https://docs.cesvima.u
 
 There is 1TB storage for the whole project (/home/`)`
 
+![image 6](src/img/image6.png)
+
+### **To list currently loaded modules:**
+```bash
+modules list
+```
+![image 7](src/img/image7.png)
+
+### **To list all the available modules to install:**
+```bash
+module avail
+```
+![image 8](src/img/image8.png)
 
 
 
-
-Available modules to install:
-
-
-
-
-
-To list all available modules of a given framework run the command:
-
- module spider 
-
+### **To list all available modules of a given framework run the command:**
+```bash
+ module spider <framework-to-list>
+```
 Some examples are presented below:
+![image 9](src/img/image9.png)
+
+### **To restart your environment**
+You may also consider restarting your environment before loading any module. That can be done directly using the following combination of instructions. The **module load** command will be executed after **module purge** which unloads all modules loaded in your environment.
+
+```bash
+ module purge & module load <module-to-load>
+```
+
+![image 10](src/img/image10.png)
+
+As commented, interactive nodes (where our commands will be executed) do not have a GPU associated. Therefore, **nvidia-smi** command will prompt the following:
+
+```bash
+nvidia-smi
+```
+
+![image 11](src/img/image11.png)
+
+Additionally, it is not possible to directly install any module apart from those listed using previous commands. The remaining install commands will be executed directly in those nodes specified for computation as it will be shown later in [ Launch a test program](#launch-a-test-program)  section.
+
+![image 12](src/img/image12.png)
+
+
+## **Launch a test program**
 
 
 
+For this section, usage of VSCode for accessing **magerit** is recommended.
+
+### 1. Clone the following repository:
+```bash
+    git clone 
+```
+![image 13](src/img/image13.png)
+
+### 2. Open probe\_magerit.sh. You should see the following:
+
+![image 14](src/img/image14.png)
 
 
+**NOTE:** Slurm is used for launching all the commands that will be sent to the computation nodes. Slurm reads commands in the way presented above, beginning with “#” (i.e. #sbatch). Therefore, although they will appear as comments, they will work.
 
+Before running any code, open a terminal and go to the directory where you have cloned the repository. Create a virtual environment to install the required packages for this demo:
 
+```bash
+    python -m venv venv
+```
 
-As commented, interactive nodes do not have a GPU associated. Therefore, nvidia-smi command will show the below prompt. 
+![image 15](src/img/image15.png)
 
+**NOTE:** python must have been loaded prior to running this command. You can check it by running [“module list”](#to-list-currently-loaded-modules) command.
 
+The steps presented from this point on will be executed when launching **probe_magerit.sh**. You can try to run them on a terminal on your own but you may not have the required permissions to do so.
 
+### 3. Access the venv using:
 
+```bash
+    source venv/bin/activate
+```
 
-Additionally, it is not possible to directly install anything apart from those things listed using module in these nodes. Other installations will be installed in those specified for computation.
+### 4. Run the following command to install the required dependencies:
 
-
-
-
-
-
-
-Launch a test program
-
-
-
-For this section, usage of VSCode for accessing magerit is recommended.
-
-Clone the following repository:
-
-git clone 
-
-
-
-
-
-Open probe\_magerit.sh. You should see the following:
-
-
-
- 
-
-NOTE: Slurm is used for launching all the commands that will be sent to the computation nodes. Slurm reads commands in the way presented above, beginning with “#” (i.e. #sbatch) although they will appear as comments.
-
-
-
-
-
-Create a virtual environment to install the required packages:
-
-python -m venv venv
-
-NOTE: python must have been loaded prior to run this command. You can check it via running “module list” command.
-
-Access the venv using:
-
-source venv/bin/activate
-
-Run the following command to install the required dependencies:
-
-pip install -r requirements.txt
+```bash
+    pip install -r requirements.txt
+```
 
 In order to run python commands, as presented at the end of the script, you should include “srun”. An example is provided:
 
-“srun python python\_file.py --optional\_arguments”
+```bash
+    srun python python_file.py --optional_arguments
+```
 
-Open probe\_magerit.py and you should see the following:
+Open **probe\_magerit.py** and you should see the following:
 
-
-
-
-
-![Image 1](/mnt/data/output_markdown/image1.png)
-
-![Image 2](/mnt/data/output_markdown/image2.png)
-
-![Image 3](/mnt/data/output_markdown/image3.png)
-
-![Image 4](/mnt/data/output_markdown/image4.png)
-
-![Image 5](/mnt/data/output_markdown/image5.png)
-
-![Image 6](/mnt/data/output_markdown/image6.png)
-
-![Image 7](/mnt/data/output_markdown/image7.png)
-
-![Image 8](/mnt/data/output_markdown/image8.png)
-
-![Image 9](/mnt/data/output_markdown/image9.png)
-
-![Image 10](/mnt/data/output_markdown/image10.png)
-
-![Image 11](/mnt/data/output_markdown/image11.png)
-
-![Image 12](/mnt/data/output_markdown/image12.png)
-
-![Image 13](/mnt/data/output_markdown/image13.png)
-
-![Image 14](/mnt/data/output_markdown/image14.png)
-
-![Image 15](/mnt/data/output_markdown/image15.png)
-
-![Image 16](/mnt/data/output_markdown/image16.png)
-
+![image 16](src/img/image16.png)
