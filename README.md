@@ -34,6 +34,12 @@
 
     3.4. [Run the following command to install the required dependencies](#4-run-the-following-command-to-install-the-required-dependencies)
 
+    3.5. [Run the following command to run the script](#5-run-the-following-command-to-run-the-script)
+
+    3.6. [Check if the script has been queued](#6-check-if-the-script-has-been-queued)
+
+    3.7. [Check the output of the script](#7-check-the-output-of-the-script)
+
 ## Steps to request access for CeSVima
 
 ### STEP 1 - Acces CeSVima webpage
