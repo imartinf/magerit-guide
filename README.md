@@ -123,6 +123,8 @@ You may also consider restarting your environment before loading any module. Tha
 
 ![image 10](src/img/image10.png)
 
+**IMPORTANT NOTE:** There are errors when loading <span style="color:red">**Python3.11**</span> so please avoid using it. For instance, you might not be able to run pip install commands. For now, <span style="color:green">**Python3.10**</span> is the latest stable version available.
+
 As commented, interactive nodes (where our commands will be executed) do not have a GPU associated. Therefore, **nvidia-smi** command will prompt the following:
 
 ```bash
@@ -131,7 +133,11 @@ nvidia-smi
 
 ![image 11](src/img/image11.png)
 
-Additionally, it is not possible to directly install any module apart from those listed using previous commands. The remaining install commands will be executed directly in those nodes specified for computation as it will be shown later in [ Launch a test program](#launch-a-test-program)  section.
+Additionally, it is possible to directly install modules using pip or any other apart from those listed using previous commands. In our case, the remaining install commands will be executed directly in those nodes specified for computation as it will be shown later in [Launch a test program](#launch-a-test-program) section.
+
+
+However, if you experience problems directly installing a module using pip after loading the corresponding module, you may consider restarting your evironment and loading a different Python version. An exampple of the error you may get is presented below:
+
 
 ![image 12](src/img/image12.png)
 
@@ -158,7 +164,7 @@ For this section, usage of VSCode for accessing **magerit** is recommended.
 Before running any code, open a terminal and go to the directory where you have cloned the repository. Create a virtual environment to install the required packages for this demo:
 
 ```bash
-    python -m venv venv
+python -m venv venv
 ```
 
 ![image 15](src/img/image15.png)
@@ -170,21 +176,66 @@ The steps presented from this point on will be executed when launching **probe_m
 ### 3. Access the venv using:
 
 ```bash
-    source venv/bin/activate
+source venv/bin/activate
 ```
 
 ### 4. Run the following command to install the required dependencies:
 
 ```bash
-    pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
-In order to run python commands, as presented at the end of the script, you should include “srun”. An example is provided:
+### 5. Run the following command to run the script:
+
+
+In order to run python commands, as presented at the end of the script, you should include “srun”. A general example is provided:
 
 ```bash
-    srun python python_file.py --optional_arguments
+srun python python_file.py --optional_arguments
 ```
 
-Open **probe\_magerit.py** and you should see the following:
+Open **probe\_magerit.py**, you should see the following:
 
 ![image 16](src/img/image16.png)
+
+To run the script, execute the following command:
+
+```bash
+srun python probe_magerit.py
+```
+
+### 6. Check if the script has been queued:
+
+```bash
+squeue
+```
+In the following image, you can see that the script has been queued and is waiting until it can be processed.
+
+![image 17](src/img/image17.png)
+
+Once it enters in the running state, you should see the following:
+
+![image 18](src/img/image18.png)
+
+### 7. Check the output of the script:
+
+Once the script has finished, you can check the output in the file **output.txt**.
+
+```bash
+# List directories
+ls
+# Go to logs directory
+cd logs/
+# Print the output of the script in the terminal
+cat output.out
+```
+
+At first you should see all the requirements installation and other information related to different processes carried out by the script.
+
+![image 19](src/img/image19.png)
+
+In the end, you should be able to see the output of the script in the terminal with all the relevant information which should be similar to the following:
+
+![image 20](src/img/image20.png)
+
+
