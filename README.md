@@ -40,6 +40,8 @@
 
     3.7. [Check the output of the script](#7-check-the-output-of-the-script)
 
+    3.8. [Cancel a job](#8-cancel-a-job)
+
 ## Steps to request access for CeSVima
 
 ### STEP 1 - Acces CeSVima webpage
@@ -56,7 +58,7 @@ The information corresponding to the department is presented below.
  
 
 **NOTE**:
-If you are a PhD student, fill project data with your PhD thesis information(Thesis title, overview of the topic and so on...). 
+If you are a PhD student, fill project data with your PhD thesis information(Thesis title, overview of the topic and so on...). If you do not have a title and a description yet, you can fill it with a general description of your research area and a title :wink:.
 
 **NOTE 2**:
 Maximum project duration is up to 2 years.
@@ -139,7 +141,7 @@ nvidia-smi
 
 ![image 11](src/img/image11.png)
 
-Additionally, it is possible to directly install modules using pip or any other apart from those listed using previous commands. In our case, the remaining install commands will be executed directly in those nodes specified for computation as it will be shown later in [Launch a test program](#launch-a-test-program) section.
+It is possible to directly install modules using pip or any other apart from those listed using previous commands. In our case, the remaining install commands will be executed directly in those nodes specified for computation as it will be shown later in [Launch a test program](#launch-a-test-program) section so we leave it for now.
 
 
 However, if you experience problems directly installing a module using pip after loading the corresponding module, you may consider restarting your evironment and loading a different Python version. An exampple of the error you may get is presented below:
@@ -150,24 +152,24 @@ However, if you experience problems directly installing a module using pip after
 
 ## **Launch a test program**
 
-
-
-For this section, usage of VSCode for accessing **magerit** is recommended.
+For this section, we recommend using VSCode for accessing **magerit**. It simplifies the process of editing and running the scripts. You can also use the terminal directly.
 
 ### 1. Clone the following repository:
 ```bash
-    git clone 
+git clone https://github.com/imartinf/magerit-guide.git
 ```
 ![image 13](src/img/image13.png)
 
 ### 2. Open probe\_magerit.sh. You should see the following:
+
+This is the main script that includes all the principal processes that will be involved in the execution of the test program. However, you can launch them independently in the terminal as it will be shown. However, for simplicity we recommend to include them in the script.
 
 ![image 14](src/img/image14.png)
 
 
 **NOTE:** Slurm is used for launching all the commands that will be sent to the computation nodes. Slurm reads commands in the way presented above, beginning with “#” (i.e. #sbatch). Therefore, although they will appear as comments, they will work.
 
-Before running any code, open a terminal and go to the directory where you have cloned the repository. Create a virtual environment to install the required packages for this demo:
+Before running anything, open a terminal and go to the directory where you have cloned the repository. Create a virtual environment to install the required packages for this demo. You can do this by running the following command:
 
 ```bash
 python -m venv venv
@@ -177,7 +179,7 @@ python -m venv venv
 
 **NOTE:** python must have been loaded prior to running this command. You can check it by running [“module list”](#to-list-currently-loaded-modules) command.
 
-The steps presented from this point on will be executed when launching **probe_magerit.sh**. You can try to run them on a terminal on your own but you may not have the required permissions to do so.
+The steps presented from this point on will be executed when launching **probe_magerit.sh**. You can try to run them on a terminal directly if you want to check the output of each command. However, a description of each of the steps is presented below for a better understanding of the process.
 
 ### 3. Access the venv using:
 
@@ -187,6 +189,8 @@ source venv/bin/activate
 
 ### 4. Run the following command to install the required dependencies:
 
+This command will install all the required dependencies for the script to run. It can be done manually in the shell or you can also include it in the script as shown in the [probe_magerit.sh](#2-open-probe_mageritsh-you-should-see-the-following) file.
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -194,23 +198,29 @@ pip install -r requirements.txt
 ### 5. Run the following command to run the script:
 
 
-In order to run python commands, as presented at the end of the script, you should include “srun”. A general example is provided:
+In order to run commands, as presented at the end of the script, you should include “srun”. A general example is provided:
 
 ```bash
-srun python python_file.py --optional_arguments
+sbatch <your_file.sh> --<your-arguments>
 ```
+
+**NOTE:** optional arguments in this case refers to slurm arguments. For instance, you can specify the number of nodes, the number of tasks, the time, the partition, etc. For further information refer to the [slurm documentation](https://slurm.schedmd.com/sbatch.html).
 
 Open **probe\_magerit.py**, you should see the following:
 
 ![image 16](src/img/image16.png)
 
+This file is a simple script that will run a test program to check if the environment is correctly set up and that will describe relevant information regarding the environment and the resources available. It will be executed in the computation nodes. It will be executed from the **probe_magerit.sh** script.
+
 To run the script, execute the following command:
 
 ```bash
-srun python probe_magerit.py
+sbatch probe_magerit.sh
 ```
 
 ### 6. Check if the script has been queued:
+
+To check if the script has been queued, you can run the following command:
 
 ```bash
 squeue
@@ -225,7 +235,7 @@ Once it enters in the running state, you should see the following:
 
 ### 7. Check the output of the script:
 
-Once the script has finished, you can check the output in the file **output.txt**.
+Once the script has finished, you can check the output in the file **output.out**. To visualize the output, you can use the following commands:
 
 ```bash
 # List directories
@@ -236,12 +246,27 @@ cd logs/
 cat output.out
 ```
 
-At first you should see all the requirements installation and other information related to different processes carried out by the script.
+In this **.out** file you will see everything that your code prints in the terminal. As you do not have access to the terminal where the code is running, this is the only way to see the output of your code. However, you can use any other loggers to save the output of your code in a file or in a remote framework.
+At first you should see all the requirements installation and other information related to different processes carried out at the beginning of the execution.
 
 ![image 19](src/img/image19.png)
 
 In the end, you should be able to see the output of the script in the terminal with all the relevant information which should be similar to the following:
 
 ![image 20](src/img/image20.png)
+
+### 8. Cancel a job
+
+If you want to cancel a job that is currently being executed, you can use the following command:
+
+```bash
+scancel <job_id>
+```
+
+Where **<job_id>** is the id of the job you want to cancel. You can get the id of the job by running the following command:
+
+```bash
+squeue
+```
 
 
